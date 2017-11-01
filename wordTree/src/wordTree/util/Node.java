@@ -19,21 +19,13 @@ public class Node implements {
 	}
 	
 	/**
-	 * @return int - bnumber of node
+	 * @return String - word stored in Node
 	 */
-	public int getBnum() {
-		return bnumber;
+	public String getWord() {
+		return word;
 	}
 	
-	/**
-	 * @return arraylist of courses
-	 */
-	public ArrayList<String> getCourses(){
-		return courses;
-	}
-	
-	/**
-	 * 
+	/** 
 	 * @return left Node
 	 */
 	public Node getLeft() {
@@ -47,18 +39,12 @@ public class Node implements {
 		return right;
 	}
 	
-	/**
-	 * @param n - int to set bnumber
-	 */
-	public void setBnum(int n) {
-		bnumber = n;
+	public void increaseCount() {
+		count++;
 	}
 	
-	/**
-	 * @param c - arraylist to set courses
-	 */
-	public void setCourses(ArrayList<String> c) {
-		courses = c;
+	public void decreaseCount() {
+		count--;
 	}
 	
 	/**
@@ -76,43 +62,9 @@ public class Node implements {
 	}
 	
 	/**
-	 * @return cloned node
+	 * @return int - character count for that word
 	 */
-	public Node clone() {
-		Node copy = new Node(bnumber, courses);
-		return copy;
-	}
-	
-	/**
-	 * @param o - observer to be added
-	 */
-	public void registerObserver(ObserverI o) {
-		observers.add(o);
-	}
-	
-	/**
-	 * @param o - observer to be removed
-	 */
-	public void removeObserver(ObserverI o) {
-		observers.remove(o);
-	}
-	
-	/**
-	 * @param c - updated courses
-	 */
-	public void notifyAll(ArrayList<String> c) {
-		Node n;
-		for (int index = 0; index < observers.size(); index++) {
-			n = (Node)observers.get(index);
-			n.update(n, c);
-		}
-	}
-	
-	/**
-	 * @param n - node to be updated
-	 * @param c - updated courses
-	 */
-	public void update(Node n, ArrayList<String> c) {
-		n.setCourses(c);
+	public int charCount() {
+		return (word.length() * count);
 	}
 }
