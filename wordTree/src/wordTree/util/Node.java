@@ -1,6 +1,6 @@
 package wordTree.util;
 
-public class Node implements {
+public class Node {
 	
 	private String word = null;
 	private int count = 0;
@@ -37,6 +37,13 @@ public class Node implements {
 	 */
 	public Node getRight() {
 		return right;
+	}
+	
+	/**
+	 * @return int - current count
+	 */
+	public int getCount() {
+		return count;
 	}
 	
 	public void increaseCount() {
