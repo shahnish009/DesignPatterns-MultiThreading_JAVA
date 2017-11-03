@@ -11,32 +11,31 @@ public class TreeBuilder {
 	
 	/**
 	 * insert node into BST
-	 * @param temp_node - node to be inserted
-	 * @param key - bnumber as key
-	 * @param values - courses as values
+	 * @param wordI - word to be stored in node
 	 */
-	public void insert (Node temp_node, int key, ArrayList<String> values) {
-		root = insertVal(root, temp_node, key, values);
+	public void insert (String wordI) {
+		root = insertVal(root, wordI);
 	}
 	
 	/**
 	 * helper function for inserting
 	 * @param rootI - root as incoming parameter
-	 * @param temp_nodeI - node to be inserted
-	 * @param key - bnumber as key
-	 * @param ar - courses as ar
+	 * @param val - String to be inserted in Node
 	 * @return root node
 	 */
-	private Node insertVal(Node rootI, Node temp_nodeI, int key, ArrayList<String> ar) {
+	private Node insertVal(Node rootI, String val) {
 		if(rootI == null) {
-			rootI = temp_nodeI;
+			rootI = new Node(val);
 		}
 		else {
-			if (key < rootI.getBnum()) {
-				rootI.setLeft(insertVal(rootI.getLeft(), temp_nodeI, key, ar));
+			if (((rootI.getWord()).compareTo(val)) > 0) {
+				rootI.setLeft(insertVal(rootI.getLeft(), val));
 			}
-			else if (key > rootI.getBnum()) {
-				rootI.setRight(insertVal(rootI.getRight(), temp_nodeI, key, ar));
+			else if (((rootI.getWord()).compareTo(val)) < 0) {
+				rootI.setRight(insertVal(rootI.getRight(), val));
+			}
+			else if (((rootI.getWord()).compareTo(val)) == 0) {
+				rootI.increaseCount();
 			}
 		}
 		return rootI;
@@ -44,38 +43,31 @@ public class TreeBuilder {
 
 	/**
 	 * method to delete course
-	 * @param key - bnumber as key
-	 * @param c - course to be deleted
+	 * @param wordI - word to be deleted
 	 */
-	public void deleteCourse(int key, String c) {
-		Node n = deleteVal(root, key, c);
-		if (n != null) {
-			n.notifyAll(n.getCourses());
-		}
+	public void delete(String wordI) {
+		deleteVal(root, wordI);
 	}
 	
 	/**
 	 * helper method for deletion
-	 * @param r - node
-	 * @param key - bnumber as key
-	 * @param c - course to be deleted
-	 * @return updated node so we can notify it's observers
+	 * @param r - incoming root node
+	 * @param w - word to be deleted
 	 */
-	private Node deleteVal(Node r, int key, String c) {
+	private void deleteVal(Node r, String w) {
 		if (r == null) {
-			return r;
+			return;
 		}
-		if(r.getBnum() == key) {
-			ArrayList<String> temp = r.getCourses();
-			temp.remove(c);
-			r.setCourses(temp);
-			return r;
+		if(((r.getWord()).compareTo(val)) == 0) {
+			if(r.getCount > 0) {
+				r.decreaseCount();
+			}
 		}
-		else if(r.getBnum() < key) {
-			return deleteVal(r.getRight(), key, c);
+		else if(((r.getWord()).compareTo(val)) < 0) {
+			deleteVal(r.getRight(), w);
 		}
-		else {
-			return deleteVal(r.getLeft(), key, c);
+		else if(((r.getWord()).compareTo(val)) > 0){
+			deleteVal(r.getLeft(), w);
 		}
 	}
 	
@@ -94,9 +86,13 @@ public class TreeBuilder {
 	private void inorderVal(Results rs, Node r) {
 		if (r != null) {
 			inorderVal(rs, r.getLeft());
-			rs.storeNewResult(r.getBnum() + ":" + String.join(" ",r.getCourses()));
+			toString()
 			inorderVal(rs, r.getRight());
 		}
+	}
+	
+	private static void toString(String msg) {
+		System.out.println(msg);
 	}
 }
 
