@@ -1,7 +1,5 @@
 package wordTree.util;
 
-import java.util.ArrayList;
-
 public class TreeBuilder {
 	private Node root;
 	
@@ -59,7 +57,7 @@ public class TreeBuilder {
 			return;
 		}
 		if(((r.getWord()).compareTo(val)) == 0) {
-			if(r.getCount > 0) {
+			if(r.getCount() > 0) {
 				r.decreaseCount();
 			}
 		}
@@ -74,8 +72,8 @@ public class TreeBuilder {
 	/**
 	 * @param r - results instance
 	 */
-	public void printNodes(Results r) {
-		inorderVal(r, root);
+	public void printNodes() {
+		inorderVal(root);
 	}
 	
 	/**
@@ -83,16 +81,19 @@ public class TreeBuilder {
 	 * @param rs - results instance
 	 * @param r - Node instance
 	 */
-	private void inorderVal(Results rs, Node r) {
+	private void inorderVal(Node r) {
 		if (r != null) {
-			inorderVal(rs, r.getLeft());
-			toString()
-			inorderVal(rs, r.getRight());
+			inorderVal(r.getLeft());
+			System.out.println(r.getWord());
+			inorderVal(r.getRight());
 		}
 	}
 	
-	private static void toString(String msg) {
-		System.out.println(msg);
+	/**
+	 * @return word at root node
+	 */
+	public String toString() {
+		return "Word in root node: " + root.getWord();
 	}
 }
 
