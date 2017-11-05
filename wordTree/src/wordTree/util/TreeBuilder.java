@@ -56,15 +56,15 @@ public class TreeBuilder {
 		if (r == null) {
 			return;
 		}
-		if(((r.getWord()).compareTo(val)) == 0) {
+		if(((r.getWord()).compareTo(w)) == 0) {
 			if(r.getCount() > 0) {
 				r.decreaseCount();
 			}
 		}
-		else if(((r.getWord()).compareTo(val)) < 0) {
+		else if(((r.getWord()).compareTo(w)) < 0) {
 			deleteVal(r.getRight(), w);
 		}
-		else if(((r.getWord()).compareTo(val)) > 0){
+		else if(((r.getWord()).compareTo(w)) > 0){
 			deleteVal(r.getLeft(), w);
 		}
 	}
