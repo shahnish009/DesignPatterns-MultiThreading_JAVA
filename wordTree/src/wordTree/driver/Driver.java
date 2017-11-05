@@ -2,15 +2,9 @@ package wordTree.driver;
 
 import java.lang.NumberFormatException;
 import java.lang.RuntimeException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import wordTree.airportStates.SecurityFactors;
 import wordTree.store.Results;
 import wordTree.util.MyLogger;
-import wordTree.util.FileProcessor;
-import wordTree.util.InputProcessor;
 import java.util.InputMismatchException;
-import java.io.FileNotFoundException;
 
 public class Driver {
 	
@@ -22,14 +16,14 @@ public class Driver {
 		
 		int debugValueSetter = -1;
 		
-		FileProcessor fileP = null;
+//		FileProcessor fileP = null;
 		
 		try {
 			if(5 == args.length) {
        	        ipFile = args[0];
 	            opFile = args[1];
 	            
-	            final NUM_THREADS = Integer.parseInt(args[2]);
+	            final int NUM_THREADS = Integer.parseInt(args[2]);
 	            if(!(NUM_THREADS >= 1 && NUM_THREADS <= 3)) {
 	            	throw new RuntimeException("Number of threads must be integers between 1 and 3 inclusive");
 	            }
