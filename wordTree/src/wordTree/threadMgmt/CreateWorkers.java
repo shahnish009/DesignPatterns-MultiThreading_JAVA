@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nishant_shah_sean_annunciation_assign_4.src.wordTree.driver.threadMgmt;
+package nishant_shah_sean_annunciation_assign_4.src.wordTree.threadMgmt;
 
 import nishant_shah_sean_annunciation_assign_4.src.wordTree.store.Results;
 import nishant_shah_sean_annunciation_assign_4.src.wordTree.util.FileProcessor;
@@ -14,37 +14,43 @@ import nishant_shah_sean_annunciation_assign_4.src.wordTree.util.FileProcessor;
  */
 public class CreateWorkers {
     
-    private String word;
-    FileProcessor fpthread;
-    Results rthread;
+    private String word=null;
+    private FileProcessor fpthread=null;
+    private Results rthread=null;
     int num_threads=0;
 
     
-    
-    public void CreateWorkers(FileProcessor filep,Results r,int numthreads ){
+    public CreateWorkers(FileProcessor filep,Results r ){
         
         fpthread=filep;
         rthread=r;
-        num_threads=numthreads;
+        
+       // num_threads=numthreads;
     }
     
    
-	PopulateThread pt=new PopulateThread();
+	 PopulateThread pt=new PopulateThread();
         DeleteThread dt=new DeleteThread();
 
-	public void startPopulateThread(int numthreads){
+	public void startPopulateWorkers(int numthreads){
 		
-		
-                pt.run();
+           
+            Thread t[]=new Thread[numthreads];
+            for(int i=0;i<numthreads;i++)
+            {
+                t[i].start(pt);
+            }
 		
 		
 	}
 	
-	public void startdeleteThread(String delwords){
+	public void startdeleteWorkers(String delwords){
 		
-		
-		
-		dt.run();		
+            Thread t[]=new Thread[numthreads];
+            for(int i=0;i<numthreads;i++)
+            {
+                t[i].start(pt);
+            }	
 	}
 
     
