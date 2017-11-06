@@ -27,10 +27,7 @@ public class CreateWorkers {
         
        // num_threads=numthreads;
     }
-    
-   
-	 PopulateThread pt=new PopulateThread();
-        DeleteThread dt=new DeleteThread();
+           
 
 	public void startPopulateWorkers(int numthreads){
 		
@@ -38,19 +35,49 @@ public class CreateWorkers {
             Thread t[]=new Thread[numthreads];
             for(int i=0;i<numthreads;i++)
             {
-                t[i].start(pt);
+                t[i]=new Thread(new PopulateThread(fpthread));
+                t[i].start();
+               // System.out.println(t[i].currentThread().getName());
+               
             }
+            
+            try{
+            for(int i=0;i<numthreads;i++)
+            {
+                
+                t[i].join();
+                
+            }
+            }
+            catch(Exception e)
+            {e.printStackTrace();
+            }
+            
 		
 		
 	}
 	
 	public void startdeleteWorkers(String delwords){
 		
-            Thread t[]=new Thread[numthreads];
-            for(int i=0;i<numthreads;i++)
-            {
-                t[i].start(pt);
-            }	
+            
+//            Thread t[]=new Thread[numthreads];
+//            for(int i=0;i<numthreads;i++)
+//            {
+//                t[i]=new Thread(new DeleteThread());
+//                t[i].start();
+//                
+//            }
+//            try{
+//            for(int i=0;i<numthreads;i++)
+//            {
+//                
+//                t[i].join();
+//                
+//            }}
+//            catch(Exception e)
+//            {e.printStackTrace();
+//            }
+            	
 	}
 
     
