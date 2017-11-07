@@ -4,26 +4,39 @@ import java.lang.NumberFormatException;
 import java.lang.RuntimeException;
 import wordTree.store.Results;
 import wordTree.util.MyLogger;
+import wordTree.util.FileProcessor;
+import wordTree.util.TreeBuilder;
+import wordTree.store.Results;
+import wordTree.threadMgmt.CreateWorkers;
 import java.util.InputMismatchException;
+import java.io.FileNotFoundException;
 
 public class Driver {
 	
+	/**
+	 * main method in Driver class
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		String ipFile = null;
 		String opFile = null;
+		
 		String[] dlWords = null;
 		
+		int NUM_THREADS = 0;
 		int debugValueSetter = -1;
 		
-//		FileProcessor fileP = null;
+		FileProcessor fileP = null;
+		Results r = null;
+	    TreeBuilder tb = null;
 		
 		try {
 			if(5 == args.length) {
        	        ipFile = args[0];
 	            opFile = args[1];
 	            
-	            final int NUM_THREADS = Integer.parseInt(args[2]);
+	            NUM_THREADS = Integer.parseInt(args[2]);
 	            if(!(NUM_THREADS >= 1 && NUM_THREADS <= 3)) {
 	            	throw new RuntimeException("Number of threads must be integers between 1 and 3 inclusive");
 	            }
@@ -48,8 +61,9 @@ public class Driver {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		
 
-/*		try {
+		try {
 			fileP = new FileProcessor(ipFile);
 		}
 		catch(FileNotFoundException e) {
@@ -57,26 +71,15 @@ public class Driver {
 			e.printStackTrace();
 			System.exit(1);
 		}
-*/	
-		//SecurityFactors secFac = new SecurityFactors(0,0);
-		//Results r = new Results(opFile);
-		//Driver d = new Driver();
-/*
-		while((ipWord = fileP.readLine()) != null) {
-
-			try {
-								
-				r.storeNewResult(d.opRes(secFac));
-				
-				MyLogger.writeMessage(d.opRes(secFac) + " added to Results", MyLogger.DebugLevel.IN_RESULTS);
-			}
-			catch(Exception e) {
-				System.err.println("Input file nor formatted properly");
-				e.printStackTrace();
-				System.exit(1);
-			}
-		}
-		*/
+		
+	    tb = new TreeBuilder();
+		r = new Results(opFile);
+	
+		CreateWorkers cw = new CreateWorkers(fileP, r, tb);
+		cw.startPopulateWorkers(NUM_THREADS);
+		
+		cw.startDeleteWorkers(NUM_THREADS, dlWords);
+		
 /*		try {
 			r.writeToFile();
 		}
