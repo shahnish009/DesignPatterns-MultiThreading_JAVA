@@ -72,21 +72,23 @@ public class Driver {
 			System.exit(1);
 		}
 		
-	    tb = new TreeBuilder();
 		r = new Results(opFile);
+	    tb = new TreeBuilder(r);
 	
 		CreateWorkers cw = new CreateWorkers(fileP, r, tb);
 		cw.startPopulateWorkers(NUM_THREADS);
-		
 		cw.startDeleteWorkers(NUM_THREADS, dlWords);
 		
-/*		try {
+		tb.calcValues();
+		r.writeToStdout();
+		
+		try {
 			r.writeToFile();
 		}
 		catch(FileNotFoundException e) {
 			System.err.println("Output file cannot be generated");
 			e.printStackTrace();
 			System.exit(1);
-		}*/
+		}
 	}
 }
