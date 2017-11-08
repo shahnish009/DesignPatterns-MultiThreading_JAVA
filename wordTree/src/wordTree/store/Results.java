@@ -2,6 +2,7 @@ package wordTree.store;
 
 import wordTree.util.StdoutDisplayInterface;
 import wordTree.util.FileDisplayInterface;
+import wordTree.util.MyLogger;
 import java.io.FileNotFoundException;
 import java.lang.RuntimeException;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Results implements StdoutDisplayInterface, FileDisplayInterface{
 
 	public void writeToStdout() {
 		for(String op : storeResults) {
-			System.out.println(op);
+			MyLogger.writeMessage(op, MyLogger.DebugLevel.FROM_RESULTS);
 		}
 	}
 	
@@ -44,12 +45,13 @@ public class Results implements StdoutDisplayInterface, FileDisplayInterface{
 		
 		for(String op : storeResults) {
 			pw.println(op);
-			
-			MyLogger.writeMessage(op + " is being written to file", MyLogger.DebugLevel.FROM_RESULTS);
 		}
 		pw.close();
 	}
 	
+	/**
+	 * @param s - string to be added to results
+	 */
 	public void storeNewResult(String s) {
 		storeResults.add(s);
 	}
