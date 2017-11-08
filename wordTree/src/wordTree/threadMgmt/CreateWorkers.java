@@ -1,84 +1,76 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package nishant_shah_sean_annunciation_assign_4.src.wordTree.threadMgmt;
+package wordTree.threadMgmt;
 
-import nishant_shah_sean_annunciation_assign_4.src.wordTree.store.Results;
-import nishant_shah_sean_annunciation_assign_4.src.wordTree.util.FileProcessor;
+import wordTree.store.Results;
+import wordTree.util.FileProcessor;
+import wordTree.util.TreeBuilder;
+import wordTree.util.MyLogger;
 
-/**
- *
- * @author annse
- */
 public class CreateWorkers {
     
-    private String word=null;
-    private FileProcessor fpthread=null;
-    private Results rthread=null;
-    int num_threads=0;
-
+    private String word = null;
+    private FileProcessor fpthread = null;
+    private TreeBuilder tb = null;
+    private Results rthread = null;
     
-    public CreateWorkers(FileProcessor filep,Results r ){
-        
-        fpthread=filep;
-        rthread=r;
-        
-       // num_threads=numthreads;
+    /**
+     * constructor of CreateWorkers
+     * @param filep - FileProcessor instance
+     * @param r - Results instance
+     * @param tbI - TreeBuilder instance
+     */
+    public CreateWorkers(FileProcessor filep, Results r, TreeBuilder tbI ) {
+    	MyLogger.writeMessage("CreateWorkers constructor called", MyLogger.DebugLevel.CONSTRUCTOR);
+        fpthread = filep;
+        tb = tbI;
+        rthread = r;
     }
-           
-
-	public void startPopulateWorkers(int numthreads){
+    
+    /**
+     * method to start populating workers
+     * @param numthreads - number of threads
+     */  
+	public void startPopulateWorkers(int numthreads) {
 		
-           
-            Thread t[]=new Thread[numthreads];
-            for(int i=0;i<numthreads;i++)
-            {
-                t[i]=new Thread(new PopulateThread(fpthread));
+		    Thread t[] = new Thread[numthreads];
+            for(int i = 0; i < numthreads; i++) {
+                t[i] = new Thread(new PopulateThread(fpthread, tb));
                 t[i].start();
-               // System.out.println(t[i].currentThread().getName());
-               
             }
             
             try{
-            for(int i=0;i<numthreads;i++)
-            {
-                
+            	for(int i = 0;i < numthreads; i++) {
                 t[i].join();
-                
+            	}
             }
+            catch(InterruptedException e) {
+            	System.err.println("thread is interrupted");
+    			e.printStackTrace();
+    			System.exit(1);
             }
-            catch(Exception e)
-            {e.printStackTrace();
-            }
-            
-		
-		
 	}
 	
-	public void startdeleteWorkers(String delwords){
-		
+	/**
+	 * method to start delete workers
+	 * @param numthreads - number of threads
+	 * @param delwords - array of words to be deleted
+	 */
+	public void startDeleteWorkers(int numthreads, String[] delwords) {
+		            
+            Thread t[] = new Thread[numthreads];
+            for(int i = 0; i < numthreads; i++) {
+                t[i] = new Thread(new DeleteThread(tb, delwords[i]));
+                t[i].start();          
+            }
             
-//            Thread t[]=new Thread[numthreads];
-//            for(int i=0;i<numthreads;i++)
-//            {
-//                t[i]=new Thread(new DeleteThread());
-//                t[i].start();
-//                
-//            }
-//            try{
-//            for(int i=0;i<numthreads;i++)
-//            {
-//                
-//                t[i].join();
-//                
-//            }}
-//            catch(Exception e)
-//            {e.printStackTrace();
-//            }
-            	
+            try {
+            	for(int i = 0; i < numthreads; i++) {
+            		t[i].join();
+            	}
+            }
+            catch(InterruptedException e) {
+            	System.err.println("thread is interrupted");
+    			e.printStackTrace();
+    			System.exit(1);
+            }
 	}
-
-    
 }
