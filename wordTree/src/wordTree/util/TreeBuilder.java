@@ -1,9 +1,18 @@
 package wordTree.util;
 
+import wordTree.store.Results;
+
 public class TreeBuilder {
 	private Node root;
+	private int uniqueWords = 0;
+	private int totalWords = 0;
+	private int totalChar = 0;
 	
-	public TreeBuilder() {
+	private Results rs = null;
+	
+	public TreeBuilder(Results rI) {
+		MyLogger.writeMessage("TreeBuilder constructor called", MyLogger.DebugLevel.CONSTRUCTOR);
+		rs = rI;
 		root = null;
 	}
 	
@@ -11,7 +20,7 @@ public class TreeBuilder {
 	 * insert node into BST
 	 * @param wordI - word to be stored in node
 	 */
-	public void insert (String wordI) {
+	public synchronized void insert (String wordI) {
 		root = insertVal(root, wordI);
 	}
 	
@@ -43,7 +52,7 @@ public class TreeBuilder {
 	 * method to delete course
 	 * @param wordI - word to be deleted
 	 */
-	public void delete(String wordI) {
+	public synchronized void delete(String wordI) {
 		deleteVal(root, wordI);
 	}
 	
@@ -69,24 +78,31 @@ public class TreeBuilder {
 		}
 	}
 	
-	/**
-	 * @param r - results instance
-	 */
-	public void printNodes() {
+	public void calcValues() {
 		inorderVal(root);
+		printValues();
 	}
 	
 	/**
-	 * helper method to print nodes in ascending order
-	 * @param rs - results instance
+	 * helper method to calculate values traversing inorder
 	 * @param r - Node instance
 	 */
 	private void inorderVal(Node r) {
 		if (r != null) {
 			inorderVal(r.getLeft());
-			System.out.println(r.getWord());
+			if (r.getCount() > 0) {
+				uniqueWords++;
+				totalWords += r.getCount();
+				totalChar += r.charCount();
+			}
 			inorderVal(r.getRight());
 		}
+	}
+	
+	private void printValues() {
+		rs.storeNewResult("The total number of words: " + totalWords);
+		rs.storeNewResult("The total number of characters: " + totalChar);
+		rs.storeNewResult("The total number of distinct words: " + uniqueWords);
 	}
 	
 	/**
