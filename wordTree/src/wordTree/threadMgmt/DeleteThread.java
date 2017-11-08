@@ -1,35 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package nishant_shah_sean_annunciation_assign_4.src.wordTree.threadMgmt;
+package wordTree.threadMgmt;
 
-/**
- *
- * @author annse
- */
-public class DeleteThread implements Runnable {
+import wordTree.util.FileProcessor;
+import wordTree.util.TreeBuilder;
+import wordTree.util.MyLogger;
+
+public class DeleteThread implements Runnable{
     
-    
-     private final Object threadobject;
+	private String word = null;
+    private TreeBuilder tb = null;
         
-        public DeleteThread(Object throbj){
-            
-            threadobject=throbj;
-        }
-    
-     public  void run(){
-         try{
-            //decrement the count after deleting
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        
-		
-		
-		
+    /**
+     * DeleteThread constructor
+     * @param tbI - TreeBuilder instance
+     * @param wordI - word to be deleted
+     */
+    public DeleteThread(TreeBuilder tbI, String wordI) {
+    	MyLogger.writeMessage("DeleteThread constructor called", MyLogger.DebugLevel.CONSTRUCTOR);
+        tb = tbI;
+        word = wordI;
+    }
+
+    public void run(){
+    	MyLogger.writeMessage("DeleteThread's run() method called", MyLogger.DebugLevel.IN_RUN);
+    	tb.delete(word);
 	}
-    
 }
