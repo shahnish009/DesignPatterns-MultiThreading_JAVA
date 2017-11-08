@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 public class FileProcessor {
 	
 	private Scanner sc = null;
+	private String word = null;
 
 	/**
 	 * constructor for FileProcessor
@@ -19,24 +20,21 @@ public class FileProcessor {
 	}
 
 	/**
-	 * method to read line from file line by line
+	 * synchronized method to read word from file word by word
 	 * @return one line at a time from the input file
 	 */
-	public String readLine() {
+	public synchronized String readLine() {
 		
 		try {
 			if(sc != null) {
+				
 				while(sc.hasNext()) {
-					return sc.nextLine();
+					word = sc.next();
+					return word;
 				}
 			}
 			else {
 				throw new RuntimeException("unable to open file");
-			}
-			
-			if(sc != null) {
-				sc.close();
-				sc = null;
 			}
 			return null;
 		}
