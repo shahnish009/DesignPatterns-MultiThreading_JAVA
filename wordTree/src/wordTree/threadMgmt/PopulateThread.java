@@ -1,58 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package nishant_shah_sean_annunciation_assign_4.src.wordTree.threadMgmt;
+package wordTree.threadMgmt;
 
-import nishant_shah_sean_annunciation_assign_4.src.wordTree.util.FileProcessor;
-import nishant_shah_sean_annunciation_assign_4.src.wordTree.util.Node;
-import nishant_shah_sean_annunciation_assign_4.src.wordTree.util.TreeBuilder;
+import wordTree.util.FileProcessor;
+import wordTree.util.TreeBuilder;
+import wordTree.util.MyLogger;
 
-/**
- *
- * @author annse
- */
 public class PopulateThread implements Runnable{
     
+    private String word = null;
+    private FileProcessor filepr = null;
+    private TreeBuilder tb = null;;
     
-        //private final Object threadobject;
-        FileProcessor filepr;
-        TreeBuilder tb=new TreeBuilder();
-        
-        
-        public PopulateThread(FileProcessor filep){
-            
-            filepr=filep;
-            
-           
-        }
+    /**
+     * PopulateThread constructor
+     * @param filep - FileProcessor instance
+     * @param tbI - TreeBuilder instance
+     */
+    public PopulateThread(FileProcessor filep, TreeBuilder tbI) {
+    	MyLogger.writeMessage("PopulateThread constructor called", MyLogger.DebugLevel.CONSTRUCTOR);
+        filepr=filep;
+        tb = tbI;
+    }
 
     public  void run(){
+    	MyLogger.writeMessage("PopulateThread's run() method called", MyLogger.DebugLevel.IN_RUN);
         
-        
-        try{
-            while(true)
-            {
-            //System.out.println(Thread.currentThread().getName());
-            String word=filepr.readLine();
-            System.out.println(Thread.currentThread().getName()+"###"+word);
-            tb.insert(word);
-            
-            //split the input
-            //insert into the tree
-            }
-            
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        
-		
-        
-		
-		
+    	while((word = filepr.readLine()) != null) {
+    		
+    		try {
+                tb.insert(word);
+                MyLogger.writeMessage("Word: " + word + " inserted into tree", MyLogger.DebugLevel.IN_RESULTS);
+    		}
+			
+			catch(Exception e) {
+				System.err.println("Something went wrong within run method");
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
 	}
-	
-    
 }
